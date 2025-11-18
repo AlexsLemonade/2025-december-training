@@ -27,7 +27,7 @@ The planned schedule for the December 2025 Data Lab Virtual Training Workshop "A
 | 5:00 PM   | *Adjourn for the day*                                            |
 | **Day 2** | **2025-12-09** |        |
 | 12:00 PM  | Integrating multiple scRNA-seq samples|  Zoom: [Main Session](../software-setup/zoom-procedures.md#joining-a-zoom-call) |
-|           | [Integration slides (PDF)](#../slides/2024-12-09_integration.pdf) |   |
+|           | [Integration slides (PDF)](#../slides/2025-12-09_integration.pdf) |   |
 |           | [Integration instruction notebook](#../completed-notebooks/scRNA-seq-advanced/02-dataset_integration.nb.html) |   |
 | 3:30 PM   | Questions and introduction to the exercises |  Zoom: [Breakout Rooms](../software-setup/zoom-procedures.md#using-breakout-rooms) |
 | 4:00 PM   | Exercises and [consultation sessions](workshop-logistics.md#consultation-sessions) | [Slack channel](../software-setup/slack-procedures.md#general-use) |
@@ -36,7 +36,7 @@ The planned schedule for the December 2025 Data Lab Virtual Training Workshop "A
 | 5:00 PM   | *Adjourn for the day*                                            |
 | **Day 3** | **2025-12-10** |        |
 | 12:00 PM  | Differential expression analysis with scRNA-seq | Zoom: [Main Session](../software-setup/zoom-procedures.md#joining-a-zoom-call) |
-|           | [Differential expression slides (PDF)](#../slides/2024-12-10_differential-expression.pdf) |   |
+|           | [Differential expression slides (PDF)](#../slides/2025-12-10_differential-expression.pdf) |   |
 |           | [Differential expression instruction notebook](#../completed-notebooks/scRNA-seq-advanced/03-differential_expression.nb.html) |   |
 | 3:30 PM   | Questions and introduction to the exercises |  Zoom: [Breakout Rooms](../software-setup/zoom-procedures.md#using-breakout-rooms) |
 | 4:00 PM   | Exercises and [consultation sessions](workshop-logistics.md#consultation-sessions) | [Slack channel](../software-setup/slack-procedures.md#general-use) |
@@ -45,7 +45,7 @@ The planned schedule for the December 2025 Data Lab Virtual Training Workshop "A
 | 5:00 PM   | *Adjourn for the day*                                            |
 | **Day 4** | **2025-12-11** |    Zoom: [Main Session](../software-setup/zoom-procedures.md#joining-a-zoom-call) |
 | 12:00 PM  | Pathway analysis with scRNA-seq |
-|           | [Pathway analysis slides (PDF)](#../slides/2024-12-11_pathway-analysis.pdf) |   |
+|           | [Pathway analysis slides (PDF)](#../slides/2025-12-11_pathway-analysis.pdf) |   |
 | 1:00 PM   | Pathway analysis: Gene Set Enrichment Analysis (GSEA) | |
 |           | [GSEA instruction notebook](#../completed-notebooks/scRNA-seq-advanced/04-gene_set_enrichment_analysis.nb.html) | |
 | 2:15 PM   | Pathway analysis: AUCell | |
