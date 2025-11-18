@@ -46,9 +46,9 @@ The planned schedule for the December 2025 Data Lab Virtual Training Workshop "A
 | **Day 4** | **2025-12-11** |    Zoom: [Main Session](../software-setup/zoom-procedures.md#joining-a-zoom-call) |
 | 12:00 PM  | Pathway analysis with scRNA-seq |
 |           | [Pathway analysis slides (PDF)](#../slides/2025-12-11_pathway-analysis.pdf) |   |
-| 1:00 PM   | Pathway analysis: Gene Set Enrichment Analysis (GSEA) | |
+| 12:30 PM   | Pathway analysis: Gene Set Enrichment Analysis (GSEA) | |
 |           | [GSEA instruction notebook](#../completed-notebooks/scRNA-seq-advanced/04-gene_set_enrichment_analysis.nb.html) | |
-| 2:15 PM   | Pathway analysis: AUCell | |
+| 2:00 PM   | Pathway analysis: AUCell | |
 |           | [AUCell instruction notebook](#../completed-notebooks/scRNA-seq-advanced/05-aucell.nb.html) | |
 | 3:30 PM   | Questions and introduction to the exercises | Zoom: [Breakout Rooms](../software-setup/zoom-procedures.md#using-breakout-rooms) |
 | 4:00 PM   | Exercises and [consultation sessions](workshop-logistics.md#consultation-sessions) | [Slack channel](../software-setup/slack-procedures.md#general-use) |
