@@ -56,7 +56,7 @@ The planned schedule for the December 2025 Data Lab Virtual Training Workshop "A
 |           | [Exercise: AUCell](https://github.com/AlexsLemonade/training-modules/blob/{{site.release_tag}}/scRNA-seq-advanced/exercise_04-scrna_pathway.Rmd) |
 |           | [Exercise: Evaluating cluster quality](https://github.com/AlexsLemonade/training-modules/blob/{{site.release_tag}}/scRNA-seq-advanced/exercise_05-cluster_evaluation.Rmd) |
 | 5:00 PM   | *Adjourn for the day*                                            |
-| **Day 5**  **2025-12-12**                                                   |
+| **Day 5** | **2025-12-12**                                                   |
 | 12:00 PM    | [Consultation sessions](workshop-logistics.md#consultation-sessions)   | [Slack channel](../software-setup/slack-procedures.md#general-use) |
 | 2:30 PM     | [Participant presentations begin](workshop-logistics.md#participant-presentations) | Zoom: [Main Session](../software-setup/zoom-procedures.md#joining-a-zoom-call) |
 | 5:00 PM     | Adjourn   |
