@@ -27,7 +27,7 @@ The planned schedule for the December 2025 Data Lab Virtual Training Workshop "A
 | 5:00 PM   | *Adjourn for the day*                                            |
 | **Day 2** | **2025-12-09** |        |
 | 12:00 PM  | Integrating multiple scRNA-seq samples|  Zoom: [Main Session](../software-setup/zoom-procedures.md#joining-a-zoom-call) |
-|           | [Integration slides (PDF)](#../slides/2025-12-09_integration.pdf) |   |
+|           | [Integration slides (PDF)](../slides/2025-12-09_integration.pdf) |   |
 |           | [Integration instruction notebook](../completed-notebooks/scRNA-seq-advanced/02-dataset_integration.nb.html) |   |
 | 3:30 PM   | Questions and introduction to the exercises |  Zoom: [Breakout Rooms](../software-setup/zoom-procedures.md#using-breakout-rooms) |
 | 4:00 PM   | Exercises and [consultation sessions](workshop-logistics.md#consultation-sessions) | [Slack channel](../software-setup/slack-procedures.md#general-use) |
