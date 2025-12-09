@@ -91,7 +91,7 @@ scater::plotUMAP(sce, color_by = "louvain_seurat")
 
 We can see that the clusters are a bit different between the two methods.
 
-There is a newer clustering algorithm called Leiden clustering, which is similar to Louvain but has some (theoretical) advantages, including that it tends to be faster ([Traag, Waltman,& van Eck 2019](https://doi.org/10.1038/s41598-019-41695-z)).
+There is a newer clustering algorithm called Leiden clustering, which is similar to Louvain but has some (theoretical) advantages, including that it tends to be faster ([Traag, Waltman, & van Eck 2019](https://doi.org/10.1038/s41598-019-41695-z)).
 Let's implement that as well:
 
 ```{r}
