@@ -6,6 +6,9 @@ output: html_notebook
 
 There were a number of questions about clustering after the intro notebooks, so I thought I would explore those a bit more. 
 
+We also have an exercise notebook that goes into more detail:
+You can find that at `~/training-modules/scRNA-seq-advanced/exercise_05-cluster_evaluation.Rmd` in your RStudio server environment.
+
 To start, we will use the same data as before, the normalized single cell data from the 10x Glioblastoma data, after normalization and dimension reduction.
 
 
@@ -208,10 +211,11 @@ There are a number of other cluster quality measures that can be useful to look 
 For example, "silhouette width" measures how close each cell is to other cells within its cluster as compared to the cells in the next cluster.
 Another measure is "neighborhood purity", which quantifies how often nearby cells are in the same cluster.
 
+As mentioned at the top, we cover these in more detail in the 05 exercise notebook, at  `~/training-modules/scRNA-seq-advanced/exercise_05-cluster_evaluation.Rmd`
+
 For more information on these methods, as well as others, I would point you to the `bluster` package vignette: [Assorted clustering diagnostics](https://www.bioconductor.org/packages/release/bioc/vignettes/bluster/inst/doc/diagnostics.html)
 
 There is also a lot of good information in the OSCA book chapter [Clustering, redux](https://bioconductor.org/books/3.14/OSCA.advanced/clustering-redux.html). 
-
 
 
 ## Session info
