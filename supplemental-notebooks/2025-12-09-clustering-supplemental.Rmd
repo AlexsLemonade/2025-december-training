@@ -1,0 +1,221 @@
+---
+title: "Clustering options and evaluation"
+date: 2025-12-09
+output: html_notebook
+---
+
+There were a number of questions about clustering after the intro notebooks, so I thought I would explore those a bit more. 
+
+To start, we will use the same data as before, the normalized single cell data from the 10x Glioblastoma data, after normalization and dimension reduction.
+
+
+## Setup and random number seed
+
+To set up we will load a couple of libraries:
+
+```{r setup}
+library(SingleCellExperiment)
+library(ggplot2)
+```
+
+
+We also want to set a random number seed.
+We do this because some of the clustering steps can have random components, and we want to be able to reproduce our results.
+Computers don't really produce random numbers, they use algorithms that generate sequences of numbers that "look" random, but are actually deterministic.
+Using a random seed lets us produce the same sequence of random numbers every time we rerun the analysis in this notebook.
+
+```{r}
+set.seed(20251209)
+```
+
+
+Now we can read in the data from the same location that we saved it to:
+
+```{r}
+normalized_dir <- file.path("data", "glioblastoma-10x", "normalized")
+sce_file <- file.path(normalized_dir, "glioblastoma_normalized_sce.rds")
+
+sce <- readr::read_rds(sce_file)
+```
+
+## Graph based clustering
+
+I am going to focus on graph-based clustering algorithms, as those are the ones that are most commonly used. 
+I am going to set up the parameters separately in each case, and then use the `scran::clusterCells` function to do the clustering.
+
+First, we can look at the default graph-based clustering, which uses the "walktrap" method.
+
+```{r}
+# default parameters
+walktrap_default_params <- bluster::NNGraphParam(
+  k = 10,
+  type = "rank",
+  cluster.fun = "walktrap"
+)
+
+walktrap_default <- scran::clusterCells(
+  sce,
+  use.dimred = "PCA",
+  BLUSPARAM = walktrap_default_params
+)
+sce$walktrap_default <- walktrap_default
+```
+
+We can visualize the results using a UMAP plot:
+```{r}
+
+scater::plotUMAP(sce, color_by = "walktrap_default")
+```
+
+As we did in the notebook, we can also set paramaters to match the method that `Seurat` uses: Jaccard graph weighting and Louvain clustering.
+
+```{r}
+# Seurat-like parameters
+louvain_seurat_params <- bluster::NNGraphParam(
+  k = 20,
+  type = "jaccard",
+  cluster.fun = "louvain"
+)
+
+louvain_seurat <- scran::clusterCells(
+  sce,
+  use.dimred = "PCA",
+  BLUSPARAM = louvain_seurat_params
+)
+sce$louvain_seurat <- louvain_seurat
+```
+
+```{r}
+scater::plotUMAP(sce, color_by = "louvain_seurat")
+```
+
+We can see that the clusters are a bit different between the two methods.
+
+There is a newer clustering algorithm called Leiden clustering, which is similar to Louvain but has some (theoretical) advantages, including that it tends to be faster ([Traag, Waltman,& van Eck 2019](https://doi.org/10.1038/s41598-019-41695-z)).
+Let's implement that as well:
+
+```{r}
+# Leiden parameters
+leiden_params <- bluster::NNGraphParam(
+  k = 20,
+  type = "jaccard",
+  cluster.fun = "leiden"
+)
+leiden_clusters <- scran::clusterCells(
+  sce,
+  use.dimred = "PCA",
+  BLUSPARAM = leiden_params
+)
+sce$leiden_clusters <- leiden_clusters
+```
+
+```{r}
+scater::plotUMAP(sce, color_by = "leiden_clusters")
+```
+Whoa!
+Something is wrong there!
+There are way too many clusters for even the most cluster-happy person.
+It turns out that Leiden clustering has a couple methods that you can use for controlling when clustering stops, and the default seems to be... aggressive.
+We can provide additional arguments to the clustering function to control this behavior, using the `cluster.args` parameter of `NNGraphParam`.
+Two important parameters for Leiden clustering are `resolution` and `objective_function`. 
+The `resolution` parameter controls the "granularity" of the clustering, with higher values leading to more clusters.
+The `objective_function` parameter controls the method used to evaluate the quality of the clustering, with different methods leading to different numbers of clusters.
+Let's try setting `resolution` to 0.5 (the default was 1) and using the "modularity" objective function (which is closer to the Louvain method).
+
+```{r}
+# Leiden parameters with adjusted resolution and objective function
+leiden_mod_params <- bluster::NNGraphParam(
+  k = 20,
+  type = "jaccard",
+  cluster.fun = "leiden",
+  cluster.args = list(
+    resolution = 0.5,
+    objective_function = "modularity"
+  )
+)
+
+leiden_mod_clusters <- scran::clusterCells(
+  sce,
+  use.dimred = "PCA",
+  BLUSPARAM = leiden_mod_params
+)
+sce$leiden_mod_clusters <- leiden_mod_clusters
+```
+
+```{r}
+scater::plotUMAP(sce, color_by = "leiden_mod_clusters")
+```
+
+Well that looks a bit more reasonable.
+
+### Exploring clustering parameters
+
+How did I know about the parameters to use for each method?
+Part of this was from reading the documentation for the `bluster` package, but the graph based clustering functions in particular is implemented in the `igraph` package, so it is useful to read the documentation for those methods too, specifically the `cluster_walktrap`, `cluster_louvain`, and `cluster_leiden` functions in `igraph`.
+
+
+## Evaluating cluster quality
+
+How do you know which clustering is best?
+First, I would push back on that question a bit: There isn't necessarily a "best" clustering, as different clusterings can be useful for different purposes.
+But we can still evaluate a number of qualities of the clusterings to help us understand them better.
+
+
+### Cluster stability 
+
+The first one is to know how stable the clusters are.
+One way to do this is to use a resampling approach, where we repeatedly construct datasets by resampling from the data we have, cluster it, and then see how well the clusters agree with the clusters from the full data.
+
+The `bluster` package can help us do that with the `bluster::bootstrapStability()` function.
+To use this function, we first need to extract our PCA matrix, which is what we were actually clustering on above. 
+
+```{r}
+pca_matrix <- reducedDim(sce, "PCA")
+```
+
+Now we can run the bootstrap stability analysis for one set of clustering parameters.
+We will use `mode = "index"` to get the adjusted Rand index (ARI) as our stability metric. 
+Briefly, if this value is very close to 1, that means that the clusters are very stable, while values closer to 0 mean that the clusters are not very stable at all. 
+
+```{r}
+leiden_ari <- bluster::bootstrapStability(
+  pca_matrix,
+  iterations = 100,
+  mode = "index",
+  BLUSPARAM = leiden_mod_params
+)
+leiden_ari
+```
+
+Let's see how that compares to the Louvain clustering as we did it before.
+
+```{r}
+louvain_ari <- bluster::bootstrapStability(
+  pca_matrix,
+  iterations = 100,
+  mode = "index",
+  BLUSPARAM = louvain_seurat_params
+)
+louvain_ari
+```
+
+It looks like the Leiden clustering is a bit more stable than the Louvain clustering in this case, but note that the Leiden clustering also used a different `resolution` parameter, so we are comparing both of those things as once.
+
+### Other cluster quality measures
+
+There are a number of other cluster quality measures that can be useful to look at. 
+
+For example, "silhouette width" measures how close each cell is to other cells within its cluster as compared to the cells in the next cluster.
+Another measure is "neighborhood purity", which quantifies how often nearby cells are in the same cluster.
+
+For more information on these methods, as well as others, I would point you to the `bluster` package vignette: [Assorted clustering diagnostics](https://www.bioconductor.org/packages/release/bioc/vignettes/bluster/inst/doc/diagnostics.html)
+
+There is also a lot of good information in the OSCA book chapter [Clustering, redux](https://bioconductor.org/books/3.14/OSCA.advanced/clustering-redux.html). 
+
+
+
+## Session info
+
+```{r}
+sessionInfo()
+```
