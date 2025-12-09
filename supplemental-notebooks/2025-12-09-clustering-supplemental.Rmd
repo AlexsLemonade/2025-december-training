@@ -67,7 +67,7 @@ We can visualize the results using a UMAP plot:
 scater::plotUMAP(sce, color_by = "walktrap_default")
 ```
 
-As we did in the notebook, we can also set paramaters to match the method that `Seurat` uses: Jaccard graph weighting and Louvain clustering.
+As we did in the notebook, we can also set parameters to match the method that `Seurat` uses: Jaccard graph weighting and Louvain clustering.
 
 ```{r}
 # Seurat-like parameters
